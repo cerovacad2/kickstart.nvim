@@ -247,6 +247,17 @@ require('lazy').setup({
   --
   -- See `:help gitsigns` to understand what the configuration keys do
   {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    build = 'cd app && yarn install',
+    init = function()
+      vim.g.mkdp_filetypes = { 'markdown' }
+      vim.g.mkdp_auto_start = 1
+      vim.g.mkdp_auto_close = 1
+    end,
+    ft = { 'markdown' },
+  },
+  {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
