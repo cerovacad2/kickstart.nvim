@@ -1,5 +1,6 @@
 --[[
-
+--
+-- 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -169,6 +170,9 @@ vim.opt.scrolloff = 10
 
 --  Map jj to <Esc>
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, silent = true })
+
+-- Map <Leader>n to toggle NvimTree
+vim.keymap.set('n', '<Leader>n', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -778,6 +782,8 @@ require('lazy').setup({
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
+      require('cmp').register_source('custom_source', require 'custom.cmp_custom_source')
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -847,8 +853,23 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          --   { name = 'custom_source' },
         },
       }
+
+      -- Add a filetype-specific setup for .norg files
+      cmp.setup.filetype('norg', {
+        sources = {
+          {
+            name = 'lazydev',
+            group_index = 0,
+          },
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          { name = 'path' },
+          { name = 'custom_source' }, -- Add the custom source only for norg files
+        },
+      })
     end,
   },
 
